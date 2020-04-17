@@ -1,8 +1,15 @@
 # OpenCATS
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/948d67033d624e9382a332af20339c00)](https://www.codacy.com/app/OpenCATS/OpenCATS?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=opencats/OpenCATS&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/opencats/OpenCATS.png)](https://travis-ci.org/opencats/OpenCATS)
+OpenCATS is a Free and Open Source Candidate/Applicant Tracking System designed for Recruiters to manage recruiting process from job posting, candidate application, through to candidate selection and submission. This fork is for Vouch LLC.
 
-OpenCATS is a Free and Open Source Candidate/Applicant Tracking System designed for Recruiters to manage recruiting process from job posting, candidate application, through to candidate selection and submission.
+## Dev
+
+1. Run the `init.sh` file
+2. `cd` into the `docker` folder and `docker-compose up`
+3. Navigate to `http://localhost` - u: admin / p: admin
+
+If this is the first time running it, you will get a fresh database from the startup script in the `db` folder.
+
+## Other
 
 More details: 
 
