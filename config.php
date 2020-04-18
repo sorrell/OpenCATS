@@ -27,6 +27,12 @@
  * $Id: config.php 3826 2007-12-10 06:03:18Z will $
  */
 
+include_once('./vendor/autoload.php');
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS']);
+
 /* License key. */
 define('LICENSE_KEY','3163GQ-54ISGW-14E4SHD-ES9ICL-X02DTG-GYRSQ6');
 
@@ -37,10 +43,10 @@ if( !defined('LEGACY_ROOT') )
 }
 
 /* Database configuration. */
-define('DATABASE_USER', 'cats');
-define('DATABASE_PASS', 'password');
-define('DATABASE_HOST', 'localhost');
-define('DATABASE_NAME', 'cats_dev');
+define('DATABASE_USER', $_ENV['DB_USER']);
+define('DATABASE_PASS', $_ENV['DB_PASS']);
+define('DATABASE_HOST', $_ENV['DB_HOST']);
+define('DATABASE_NAME', $_ENV['DB_NAME']);
 
 /* Authentication Configuration
  * Options are sql, ldap, sql+ldap
@@ -59,32 +65,33 @@ define('SSL_ENABLED', false);
  * 'C:\\antiword\\antiword.exe'. Windows Antiword will have problems locating
  * mapping files if you install it anywhere but C:\antiword\.
  */
-define('ANTIWORD_PATH', "\\path\\to\\antiword");
+
+define('ANTIWORD_PATH', $_ENV['PATHS_ANTIWORD']);
 define('ANTIWORD_MAP', '8859-1.txt');
 
 /* XPDF / pdftotext settings. Remember to use double backslashes (\) to represent
  * one backslash (\).
  * http://www.foolabs.com/xpdf/
  */
-define('PDFTOTEXT_PATH', "\\path\\to\\pdftotext");
+define('PDFTOTEXT_PATH', $_ENV['PATHS_PDFTOTEXT']);
 
 /* html2text settings. Remember to use double backslashes (\) to represent
  * one backslash (\). 'html2text' can be found at:
  * http://www.mbayer.de/html2text/
  */
-define('HTML2TEXT_PATH', "\\path\\to\\html2text");
+define('HTML2TEXT_PATH', $_ENV['PATHS_HTML2TEXT']);
 
 /* UnRTF settings. Remember to use double backslashes (\) to represent
  * one backslash (\). 'unrtf' can be found at:
  * http://www.gnu.org/software/unrtf/unrtf.html
  */
-define('UNRTF_PATH', "\\path\\to\unrtf");
+define('UNRTF_PATH', $_ENV['PATHS_UNRTF']);
 
 /* Temporary directory. Set this to a directory that is writable by the
  * web server. The default should be fine for most systems. Remember to
  * use double backslashes (\) to represent one backslash (\) on Windows.
  */
-define('CATS_TEMP_DIR', './temp');
+define('CATS_TEMP_DIR', $_ENV['PATHS_TEMPDIR']);
 
 /* If User Details and Login Activity pages in the settings module are
  * unbearably slow, set this to false.
@@ -177,7 +184,7 @@ define('FORGOT_PASSWORD_BODY',      'You recently requested that your OpenCATS: 
 define('ENABLE_DEMO_MODE', false);
 
 /* Offset to GMT Time. */
-define('OFFSET_GMT', 2);
+define('OFFSET_GMT', $_ENV['TIMEZONE_OFFSET']);
 
 /* Should we enforce only one session per user (excluding demo)? */
 define('ENABLE_SINGLE_SESSION', false);
@@ -216,13 +223,13 @@ define('MAIL_SENDMAIL_PATH', "/usr/sbin/sendmail");
  * set to 3. If your server requires authentication, set MAIL_SMTP_AUTH to
  * true and configure MAIL_SMTP_USER and MAIL_SMTP_PASS.
  */
-define('MAIL_SMTP_HOST', "localhost");
-define('MAIL_SMTP_PORT', 587);
-define('MAIL_SMTP_AUTH', true);
-define('MAIL_SMTP_USER', "user");
-define('MAIL_SMTP_PASS', "password");
+define('MAIL_SMTP_HOST', $_ENV['MAIL_SMTP_HOST']);
+define('MAIL_SMTP_PORT', $_ENV['MAIL_SMTP_PORT']);
+define('MAIL_SMTP_AUTH', $_ENV['MAIL_SMTP_AUTH']);
+define('MAIL_SMTP_USER', $_ENV['MAIL_SMTP_USER']);
+define('MAIL_SMTP_PASS', $_ENV['MAIL_SMTP_PASS']);
 //Options: '', 'ssl' or 'tls'
-define('MAIL_SMTP_SECURE', "tls");
+define('MAIL_SMTP_SECURE', $_ENV['MAIL_SMTP_ENC']);
 
 /* Event reminder E-Mail Template. */
 $GLOBALS['eventReminderEmail'] = <<<EOF
@@ -259,29 +266,29 @@ define('CACHE_MODULES', false);
  * by distance from a zipcode.
  */
 
-define('US_ZIPS_ENABLED', false);
+define('US_ZIPS_ENABLED', true);
 
 /* LDAP Configuration
  */
-define ('LDAP_HOST', 'ldap.forumsys.com');
-define ('LDAP_PORT', '389');
-define ('LDAP_PROTOCOL_VERSION', 3);
+define ('LDAP_HOST', $_ENV['LDAP_HOST']);
+define ('LDAP_PORT', $_ENV['LDAP_PORT']);
+define ('LDAP_PROTOCOL_VERSION', $_ENV['LDAP_PROTOCOL_VERSION']);
 
-define ('LDAP_BASEDN', 'dc=example,dc=com');
+define ('LDAP_BASEDN', $_ENV['LDAP_BASEDN']);
 
-define ('LDAP_BIND_DN', 'cn=read-only-admin,dc=example,dc=com');
-define ('LDAP_BIND_PASSWORD', 'password');
+define ('LDAP_BIND_DN', $_ENV['LDAP_BIND_DN']);
+define ('LDAP_BIND_PASSWORD', $_ENV['LDAP_BIND_PASSWORD']);
 
-define ('LDAP_ACCOUNT', 'cn={$username},dc=example,dc=com'); // '{$username}' cannot be changed, else can
+define ('LDAP_ACCOUNT', $_ENV['LDAP_ACCOUNT']); // '{$username}' cannot be changed, else can
 
-define ('LDAP_ATTRIBUTE_UID', 'uid');
-define ('LDAP_ATTRIBUTE_DN', 'dn');
-define ('LDAP_ATTRIBUTE_LASTNAME', 'sn');
-define ('LDAP_ATTRIBUTE_FIRSTNAME', 'givenname');
-define ('LDAP_ATTRIBUTE_EMAIL', 'mail');
+define ('LDAP_ATTRIBUTE_UID', $_ENV['LDAP_ATTRIBUTE_UID']);
+define ('LDAP_ATTRIBUTE_DN', $_ENV['LDAP_ATTRIBUTE_DN']);
+define ('LDAP_ATTRIBUTE_LASTNAME', $_ENV['LDAP_ATTRIBUTE_LASTNAME']);
+define ('LDAP_ATTRIBUTE_FIRSTNAME', $_ENV['LDAP_ATTRIBUTE_FIRSTNAME']);
+define ('LDAP_ATTRIBUTE_EMAIL', $_ENV['LDAP_ATTRIBUTE_EMAIL']);
 
-define ('LDAP_SITEID', 1);
-define ('LDAP_AD', false); // use for AD and Samba LDAP servers
+define ('LDAP_SITEID', $_ENV['LDAP_SITEID']);
+define ('LDAP_AD', $_ENV['LDAP_AD']); // use for AD and Samba LDAP servers
 
 /* Encodings available during Data Import */
 /*const IMPORT_FILE_ENCODING = array(
@@ -350,8 +357,8 @@ class ACL_SETUP {
         'candidate' => array('Candidate', 'candidate', 'This is a candidate.', ACCESS_LEVEL_SA, ACCESS_LEVEL_READ),
         'demo' => array('Demo', 'demo', 'This is a demo user.', ACCESS_LEVEL_SA, ACCESS_LEVEL_READ)
     );
-   
-    // defining access levels different from the default access level    
+
+    // defining access levels different from the default access level
     public static $ACCESS_LEVEL_MAP = array(
         'candidate' => array(
         ),
@@ -367,7 +374,7 @@ class ACL_SETUP {
 };
 */
 
-/* All possible secure object names 
+/* All possible secure object names
             'candidates.history'
             'settings.administration'
             'joborders.editRating'
